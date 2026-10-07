@@ -43,6 +43,7 @@ public partial class MainWindowViewModel : ViewModelBase
         _settings.PropertyChanged += (_, _) =>
         {
             if (!_settings.ValidMistriaLocation() || !_settings.ValidModsLocation()) return;
+            _settings.Save();
             CurrentPage = _pages[Pages.Modlist];
             StartRestartMonitor();
         };
