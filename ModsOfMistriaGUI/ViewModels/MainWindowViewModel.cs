@@ -14,8 +14,6 @@ public partial class MainWindowViewModel : ViewModelBase
 {
     private readonly Settings _settings = Settings.Load();
 
-    private readonly Dictionary<Pages, PageViewBase> _pages;
-
     private GameRestartMonitor? _restartMonitor;
 
     [ObservableProperty] private PageViewBase _currentPage;
@@ -27,19 +25,37 @@ public partial class MainWindowViewModel : ViewModelBase
         if (!_settings.ValidModsLocation())
             _settings.ModsLocation = MistriaLocator.GetModsLocation(_settings.MistriaLocation) ?? "";
 
-        _pages = new Dictionary<Pages, PageViewBase>
+        var gettingStarted = new GettingStartedPageViewModel(_settings);
+        var modlist = new ModlistPageViewModel(_settings)
         {
-            { Pages.GettingStarted , new GettingStartedPageViewModel(_settings) },
-            { Pages.Modlist, new ModlistPageViewModel(_settings) }
+            ReconfigureRequested = () =>
+            {
+                gettingStarted.IsReconfiguring = true;
+                CurrentPage = gettingStarted;
+            }
+        };
+
+        gettingStarted.Finished = () =>
+        {
+            gettingStarted.IsReconfiguring = false;
+            _settings.Save();
+            CurrentPage = modlist;
+            StartRestartMonitor();
+        };
+
+        var pages = new Dictionary<Pages, PageViewBase>
+        {
+            { Pages.GettingStarted , gettingStarted },
+            { Pages.Modlist, modlist }
         };
 
         if (!_settings.ValidMistriaLocation() || !_settings.ValidModsLocation())
         {
-            CurrentPage = _pages[Pages.GettingStarted];
+            CurrentPage = pages[Pages.GettingStarted];
         }
         else
         {
-            CurrentPage = _pages[Pages.Modlist];
+            CurrentPage = pages[Pages.Modlist];
             _settings.Save();
         }
 
@@ -47,7 +63,8 @@ public partial class MainWindowViewModel : ViewModelBase
         {
             if (!_settings.ValidMistriaLocation() || !_settings.ValidModsLocation()) return;
             _settings.Save();
-            CurrentPage = _pages[Pages.Modlist];
+            if (gettingStarted.IsReconfiguring) return;
+            CurrentPage = pages[Pages.Modlist];
             StartRestartMonitor();
         };
 

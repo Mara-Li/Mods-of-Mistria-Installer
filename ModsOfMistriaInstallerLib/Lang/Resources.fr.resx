@@ -409,7 +409,13 @@
     <value>Désactiver Tous Les Mods</value>
   </data>
   <data name="GUIReloadModlist" xml:space="preserve">
-    <value>Rafraichir la liste des mods</value>
+    <value>Rafraîchir la liste des mods</value>
+  </data>
+  <data name="GUIChangeLocations" xml:space="preserve">
+    <value>Modifier les chemins du jeu et des mods</value>
+  </data>
+  <data name="GUISetupDone" xml:space="preserve">
+    <value>Terminé</value>
   </data>
   <data name="CoreErrorStoreItemAnimalHasNoCosmetic" xml:space="preserve">
     <value>L'animal {0} pour le magasin {1} n'a aucun cosmétique défini.</value>

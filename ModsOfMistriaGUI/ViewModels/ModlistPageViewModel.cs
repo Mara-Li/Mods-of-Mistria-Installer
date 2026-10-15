@@ -33,6 +33,11 @@ public partial class ModlistPageViewModel : PageViewBase
         Task.Run(UpdateModlist);
     }
 
+    public Action? ReconfigureRequested { get; init; }
+
+    [RelayCommand]
+    private void ChangeLocations() => ReconfigureRequested?.Invoke();
+
     // ── Profile management ────────────────────────────────────────────────────────
 
     public ObservableCollection<string> Profiles { get; } = [];

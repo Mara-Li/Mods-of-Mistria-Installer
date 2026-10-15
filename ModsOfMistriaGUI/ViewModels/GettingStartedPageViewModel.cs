@@ -8,9 +8,30 @@ using Garethp.ModsOfMistriaInstallerLib.Lang;
 
 namespace Garethp.ModsOfMistriaGUI.ViewModels;
 
-public partial class GettingStartedPageViewModel(Settings settings) : PageViewBase
+public partial class GettingStartedPageViewModel : PageViewBase
 {
-    [ObservableProperty] private Settings _settings = settings;
+    [ObservableProperty] private Settings _settings;
+    
+    [NotifyPropertyChangedFor(nameof(CanFinish))]
+    [ObservableProperty] private bool _isReconfiguring;
+
+    public Action? Finished { get; set; }
+
+    public GettingStartedPageViewModel(Settings settings)
+    {
+        _settings = settings;
+        settings.PropertyChanged += (_, _) =>
+        {
+            OnPropertyChanged(nameof(CanCreateModsFolder));
+            OnPropertyChanged(nameof(WrongMistriaVersion));
+            OnPropertyChanged(nameof(CanFinish));
+        };
+    }
+
+    public bool CanFinish => IsReconfiguring && Settings.ValidMistriaLocation() && Settings.ValidModsLocation();
+
+    [RelayCommand]
+    private void Finish() => Finished?.Invoke();
 
     public bool CanCreateModsFolder => Settings.ValidMistriaLocation() && !Settings.ValidModsLocation();
 

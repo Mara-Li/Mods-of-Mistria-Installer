@@ -25,6 +25,7 @@
                         </Image>
                     </MenuItem.Header>
                     <MenuItem Header="{x:Static lang:Resources.GUIReloadModlist}" Command="{Binding ReloadModlistCommand}" IsEnabled="{Binding !IsInstalling}" />
+                    <MenuItem Header="{x:Static lang:Resources.GUIChangeLocations}" Command="{Binding ChangeLocationsCommand}" IsEnabled="{Binding !IsInstalling}" />
                     <MenuItem Header="{x:Static lang:Resources.GUISaveLogFile}" Command="{Binding SaveLogFileCommand}" />
                     <MenuItem Header="{x:Static lang:Resources.GUIEnableAllMods}" Command="{Binding EnableAllModsCommand}" IsEnabled="{Binding !IsInstalling}" />
                     <MenuItem Header="{x:Static lang:Resources.GUIDisableAllMods}" Command="{Binding DisableAllModsCommand}" IsEnabled="{Binding !IsInstalling}" />

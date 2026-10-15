@@ -1309,6 +1309,24 @@ namespace Garethp.ModsOfMistriaInstallerLib.Lang {
                 return ResourceManager.GetString("GUIReloadModlist", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Change game and mods locations.
+        /// </summary>
+        public static string GUIChangeLocations {
+            get {
+                return ResourceManager.GetString("GUIChangeLocations", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        public static string GUISetupDone {
+            get {
+                return ResourceManager.GetString("GUISetupDone", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Save Log File.
